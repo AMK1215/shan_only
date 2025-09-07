@@ -99,6 +99,31 @@
           <h1 class="text-white font-bold text-lg md:text-xl">GoldenMM</h1>
         </div>
         <div class="flex items-center space-x-4">
+          <!-- User Menu -->
+          <div class="relative" id="userMenu">
+            <button id="userMenuBtn" class="text-white hover:text-gold transition-colors duration-300 p-2 rounded-full hover:bg-white hover:bg-opacity-10">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-card-bg rounded-lg shadow-lg border border-white border-opacity-20 hidden">
+              <div class="py-2">
+                <div class="px-4 py-2 border-b border-white border-opacity-10">
+                  <p class="text-white text-sm font-medium" id="userName">Loading...</p>
+                  <p class="text-gold text-xs" id="userPhone">Loading...</p>
+                </div>
+                <a href="profile.html" class="block px-4 py-2 text-white hover:bg-white hover:bg-opacity-10 transition-colors duration-300">
+                  Profile
+                </a>
+                <a href="change-password.html" class="block px-4 py-2 text-white hover:bg-white hover:bg-opacity-10 transition-colors duration-300">
+                  Change Password
+                </a>
+                <button id="logoutBtn" class="block w-full text-left px-4 py-2 text-red-400 hover:bg-red-500 hover:bg-opacity-10 transition-colors duration-300">
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
           <!-- Music Controls -->
           <button id="music-toggle" class="text-white hover:text-gold transition-colors duration-300 p-2 rounded-full hover:bg-white hover:bg-opacity-10">
             <svg id="music-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -153,6 +178,8 @@
       <source src="TemplateData/sounds/trap-beat-266443.mp3" type="audio/mpeg">
     </audio>
     
+    <script src="js/config.js"></script>
+    <script src="js/auth-service.js"></script>
     <script>
       // Modern UI and Music Management
       let isMusicPlaying = false;
@@ -168,6 +195,13 @@
       const backgroundMusic = document.getElementById('background-music');
       const fullscreenBtn = document.getElementById('fullscreen-btn');
       const loadingText = document.getElementById('loading-text');
+      
+      // Authentication elements
+      const userMenuBtn = document.getElementById('userMenuBtn');
+      const userDropdown = document.getElementById('userDropdown');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const userName = document.getElementById('userName');
+      const userPhone = document.getElementById('userPhone');
 
       // Music control functionality
       function toggleMusic() {
@@ -220,6 +254,58 @@
           loadingText.textContent = loadingMessages[messageIndex];
         }
       }
+
+      // Authentication Functions
+      function checkAuthentication() {
+        if (!authService.isAuthenticated()) {
+          // Redirect to login page
+          window.location.href = 'login.html';
+          return false;
+        }
+        return true;
+      }
+
+      function loadUserInfo() {
+        const user = authService.getCurrentUserData();
+        if (user) {
+          userName.textContent = user.name || 'User';
+          userPhone.textContent = user.phone || '';
+        }
+      }
+
+      function toggleUserMenu() {
+        userDropdown.classList.toggle('hidden');
+      }
+
+      function hideUserMenu() {
+        userDropdown.classList.add('hidden');
+      }
+
+      async function handleLogout() {
+        if (confirm('Are you sure you want to logout?')) {
+          try {
+            await authService.logout();
+            window.location.href = 'login.html';
+          } catch (error) {
+            console.error('Logout error:', error);
+            // Force logout even if API call fails
+            authService.logout();
+            window.location.href = 'login.html';
+          }
+        }
+      }
+
+      // User menu event listeners
+      userMenuBtn.addEventListener('click', toggleUserMenu);
+      logoutBtn.addEventListener('click', handleLogout);
+      
+      // Close user menu when clicking outside
+      document.addEventListener('click', function(event) {
+        const userMenu = document.getElementById('userMenu');
+        if (!userMenu.contains(event.target)) {
+          hideUserMenu();
+        }
+      });
 
       // Event listeners
       window.addEventListener("resize", checkOrientation);
@@ -285,38 +371,49 @@
         canvas.style.height = "600px";
       }
 
-      // Show loading screen
-      loadingBar.classList.remove('hidden');
+      // Initialize authentication and load game
+      window.addEventListener('load', async function() {
+        // Check authentication first
+        if (!checkAuthentication()) {
+          return;
+        }
 
-      // Load Unity game
-      const script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-          updateLoadingText(progress);
-        }).then((unityInstance) => {
-          loadingBar.classList.add('hidden');
-          
-          // Fullscreen functionality
-          fullscreenBtn.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-          
-          // Auto-start background music (with user interaction)
-          document.addEventListener('click', () => {
-            if (!isMusicPlaying) {
-              backgroundMusic.play().catch(e => console.log('Auto-play prevented:', e));
-            }
-          }, { once: true });
-          
-        }).catch((message) => {
-          console.error('Unity loading failed:', message);
-          loadingText.textContent = "Loading failed. Please refresh the page.";
-        });
-      };
-      
-      document.body.appendChild(script);
+        // Load user information
+        loadUserInfo();
+
+        // Show loading screen
+        loadingBar.classList.remove('hidden');
+
+        // Load Unity game
+        const script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+          createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = 100 * progress + "%";
+            updateLoadingText(progress);
+          }).then((unityInstance) => {
+            loadingBar.classList.add('hidden');
+            
+            // Fullscreen functionality
+            fullscreenBtn.onclick = () => {
+              unityInstance.SetFullscreen(1);
+            };
+            
+            // Auto-start background music (with user interaction)
+            document.addEventListener('click', () => {
+              if (!isMusicPlaying) {
+                backgroundMusic.play().catch(e => console.log('Auto-play prevented:', e));
+              }
+            }, { once: true });
+            
+          }).catch((message) => {
+            console.error('Unity loading failed:', message);
+            loadingText.textContent = "Loading failed. Please refresh the page.";
+          });
+        };
+        
+        document.body.appendChild(script);
+      });
     </script>
   </body>
 </html>
