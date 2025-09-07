@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <title>Dashboard - GoldenMM Slot Game</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#FFD700',
+                        'dark-gold': '#B8860B',
+                        'game-bg': '#0F0F23',
+                        'card-bg': '#1A1A2E',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-transparent">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center space-x-3">
+                <img src="TemplateData/shan.jpg" alt="GoldenMM Logo" class="w-10 h-10 rounded-full border-2 border-gold">
+                <h1 class="text-white font-bold text-lg md:text-xl">GoldenMM</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- User Menu -->
+                <div class="relative" id="userMenu">
+                    <button id="userMenuBtn" class="text-white hover:text-gold transition-colors duration-300 p-2 rounded-full hover:bg-white hover:bg-opacity-10">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-card-bg rounded-lg shadow-lg border border-white border-opacity-20 hidden">
+                        <div class="py-2">
+                            <div class="px-4 py-2 border-b border-white border-opacity-10">
+                                <p class="text-white text-sm font-medium" id="userName">Loading...</p>
+                                <p class="text-gold text-xs" id="userPhone">Loading...</p>
+                            </div>
+                            <a href="profile.html" class="block px-4 py-2 text-white hover:bg-white hover:bg-opacity-10 transition-colors duration-300">
+                                Profile
+                            </a>
+                            <a href="change-password.html" class="block px-4 py-2 text-white hover:bg-white hover:bg-opacity-10 transition-colors duration-300">
+                                Change Password
+                            </a>
+                            <button id="logoutBtn" class="block w-full text-left px-4 py-2 text-red-400 hover:bg-red-500 hover:bg-opacity-10 transition-colors duration-300">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Welcome Section -->
+        <div class="text-center mb-8">
+            <h2 class="text-white text-2xl md:text-3xl font-bold mb-2">Welcome Back!</h2>
+            <p class="text-gold text-sm md:text-base">Your gaming dashboard</p>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="glass-effect rounded-2xl p-6 mb-8 shadow-2xl">
+            <div class="text-center">
+                <h3 class="text-white text-lg font-medium mb-2">Current Balance</h3>
+                <div class="text-3xl md:text-4xl font-bold text-gold mb-4" id="userBalance">Loading...</div>
+                <div class="flex justify-center space-x-4">
+                    <button id="depositBtn" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-300">
+                        Deposit
+                    </button>
+                    <button id="withdrawBtn" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-300">
+                        Withdraw
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <!-- Play Unity Game -->
+            <div class="glass-effect rounded-xl p-4 text-center card-hover transition-all duration-300 cursor-pointer" id="playShanGame">
+                <div class="text-3xl mb-2">🎮</div>
+                <h4 class="text-white font-medium text-sm">Play Unity Game</h4>
+                <p class="text-gold text-xs">Launch Game</p>
+            </div>
+
+            <!-- Deposit -->
+            <div class="glass-effect rounded-xl p-4 text-center card-hover transition-all duration-300 cursor-pointer" id="quickDeposit">
+                <div class="text-3xl mb-2">💰</div>
+                <h4 class="text-white font-medium text-sm">Deposit</h4>
+                <p class="text-gold text-xs">Add Funds</p>
+            </div>
+
+            <!-- Withdraw -->
+            <div class="glass-effect rounded-xl p-4 text-center card-hover transition-all duration-300 cursor-pointer" id="quickWithdraw">
+                <div class="text-3xl mb-2">💸</div>
+                <h4 class="text-white font-medium text-sm">Withdraw</h4>
+                <p class="text-gold text-xs">Cash Out</p>
+            </div>
+
+            <!-- Transaction History -->
+            <div class="glass-effect rounded-xl p-4 text-center card-hover transition-all duration-300 cursor-pointer" id="transactionHistory">
+                <div class="text-3xl mb-2">📊</div>
+                <h4 class="text-white font-medium text-sm">History</h4>
+                <p class="text-gold text-xs">View Logs</p>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Promotions -->
+            <div class="glass-effect rounded-xl p-6 card-hover transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="text-2xl mr-3">🎁</div>
+                    <h3 class="text-white font-bold">Promotions</h3>
+                </div>
+                <p class="text-gray-300 text-sm mb-4">Check out our latest offers and bonuses</p>
+                <button id="viewPromotions" class="w-full gold-gradient text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-all duration-300">
+                    View Promotions
+                </button>
+            </div>
+
+            <!-- Contact Support -->
+            <div class="glass-effect rounded-xl p-6 card-hover transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="text-2xl mr-3">📞</div>
+                    <h3 class="text-white font-bold">Support</h3>
+                </div>
+                <p class="text-gray-300 text-sm mb-4">Get help from our support team</p>
+                <button id="contactSupport" class="w-full gold-gradient text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-all duration-300">
+                    Contact Us
+                </button>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="glass-effect rounded-xl p-6 card-hover transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="text-2xl mr-3">🏦</div>
+                    <h3 class="text-white font-bold">Banks</h3>
+                </div>
+                <p class="text-gray-300 text-sm mb-4">View available payment methods</p>
+                <button id="viewBanks" class="w-full gold-gradient text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-all duration-300">
+                    View Banks
+                </button>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="glass-effect rounded-xl p-6 mt-8">
+            <h3 class="text-white font-bold text-lg mb-4">Recent Activity</h3>
+            <div id="recentActivity" class="space-y-3">
+                <div class="text-center py-8">
+                    <div class="animate-spin h-8 w-8 border-2 border-gold border-t-transparent rounded-full mx-auto"></div>
+                    <p class="text-white text-sm mt-2">Loading recent activity...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth-service.js"></script>
+    <script src="js/api-service.js"></script>
+    <script>
+        // DOM Elements
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userName = document.getElementById('userName');
+        const userPhone = document.getElementById('userPhone');
+        const userBalance = document.getElementById('userBalance');
+        const alertContainer = document.getElementById('alertContainer');
+
+        // Show Alert Function
+        function showAlert(message, type = 'error') {
+            const alert = document.createElement('div');
+            alert.className = `px-6 py-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 ${
+                type === 'success' 
+                    ? 'bg-green-500 text-white' 
+                    : type === 'warning'
+                    ? 'bg-yellow-500 text-yellow-900'
+                    : 'bg-red-500 text-white'
+            }`;
+            
+            alert.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        ${type === 'success' 
+                            ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>'
+                            : '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>'
+                        }
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                alert.style.transform = 'translateX(100%)';
+                alert.style.opacity = '0';
+                setTimeout(() => {
+                    if (alertContainer.contains(alert)) {
+                        alertContainer.removeChild(alert);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // Load User Data
+        function loadUserData() {
+            const user = authService.getCurrentUserData();
+            if (user) {
+                userName.textContent = user.name || 'User';
+                userPhone.textContent = user.phone || '';
+                userBalance.textContent = user.balanceFloat ? `${user.balanceFloat.toLocaleString()} MMK` : '0 MMK';
+            }
+        }
+
+        // Load Recent Activity
+        async function loadRecentActivity() {
+            try {
+                const [depositResult, withdrawResult] = await Promise.all([
+                    apiService.getDepositLogs(),
+                    apiService.getWithdrawLogs()
+                ]);
+
+                const recentActivity = document.getElementById('recentActivity');
+                
+                if (depositResult.success && withdrawResult.success) {
+                    const deposits = depositResult.data.slice(0, 3);
+                    const withdraws = withdrawResult.data.slice(0, 3);
+                    
+                    const allActivities = [
+                        ...deposits.map(d => ({...d, type: 'deposit'})),
+                        ...withdraws.map(w => ({...w, type: 'withdraw'}))
+                    ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5);
+
+                    if (allActivities.length === 0) {
+                        recentActivity.innerHTML = `
+                            <div class="text-center py-8">
+                                <p class="text-gray-300">No recent activity</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    recentActivity.innerHTML = allActivities.map(activity => `
+                        <div class="flex items-center justify-between py-3 border-b border-white border-opacity-10 last:border-b-0">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
+                                    activity.type === 'deposit' ? 'bg-green-500' : 'bg-red-500'
+                                }">
+                                    <span class="text-white text-sm">${activity.type === 'deposit' ? 'D' : 'W'}</span>
+                                </div>
+                                <div>
+                                    <p class="text-white text-sm font-medium">${activity.type === 'deposit' ? 'Deposit' : 'Withdraw'}</p>
+                                    <p class="text-gray-300 text-xs">${new Date(activity.created_at).toLocaleDateString()}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-white font-medium">${activity.amount.toLocaleString()} MMK</p>
+                                <p class="text-xs ${activity.status === 'approved' ? 'text-green-400' : activity.status === 'pending' ? 'text-yellow-400' : 'text-red-400'}">
+                                    ${activity.status || 'Pending'}
+                                </p>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    recentActivity.innerHTML = `
+                        <div class="text-center py-8">
+                            <p class="text-gray-300">Failed to load recent activity</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading recent activity:', error);
+                document.getElementById('recentActivity').innerHTML = `
+                    <div class="text-center py-8">
+                        <p class="text-gray-300">Error loading recent activity</p>
+                    </div>
+                `;
+            }
+        }
+
+        // User menu functions
+        function toggleUserMenu() {
+            userDropdown.classList.toggle('hidden');
+        }
+
+        function hideUserMenu() {
+            userDropdown.classList.add('hidden');
+        }
+
+        async function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                try {
+                    await authService.logout();
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    authService.logout();
+                    window.location.href = 'login.html';
+                }
+            }
+        }
+
+        // Navigation functions
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
+        // Event Listeners
+        userMenuBtn.addEventListener('click', toggleUserMenu);
+        logoutBtn.addEventListener('click', handleLogout);
+        
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('userMenu');
+            if (!userMenu.contains(event.target)) {
+                hideUserMenu();
+            }
+        });
+
+        // Quick action buttons
+        document.getElementById('playShanGame').addEventListener('click', () => navigateTo('unity-game.html'));
+        document.getElementById('quickDeposit').addEventListener('click', () => navigateTo('deposit.html'));
+        document.getElementById('quickWithdraw').addEventListener('click', () => navigateTo('withdraw.html'));
+        document.getElementById('transactionHistory').addEventListener('click', () => navigateTo('transactions.html'));
+        document.getElementById('depositBtn').addEventListener('click', () => navigateTo('deposit.html'));
+        document.getElementById('withdrawBtn').addEventListener('click', () => navigateTo('withdraw.html'));
+        document.getElementById('viewPromotions').addEventListener('click', () => navigateTo('promotions.html'));
+        document.getElementById('contactSupport').addEventListener('click', () => navigateTo('contact.html'));
+        document.getElementById('viewBanks').addEventListener('click', () => navigateTo('banks.html'));
+
+        // Initialize page
+        window.addEventListener('load', async function() {
+            if (!authService.isAuthenticated()) {
+                showAlert('Please login to access dashboard.', 'warning');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+
+            loadUserData();
+            await loadRecentActivity();
+        });
+    </script>
+</body>
+</html>

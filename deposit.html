@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <title>Deposit - GoldenMM Slot Game</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#FFD700',
+                        'dark-gold': '#B8860B',
+                        'game-bg': '#0F0F23',
+                        'card-bg': '#1A1A2E',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-transparent">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center space-x-3">
+                <img src="TemplateData/shan.jpg" alt="GoldenMM Logo" class="w-10 h-10 rounded-full border-2 border-gold">
+                <h1 class="text-white font-bold text-lg md:text-xl">GoldenMM</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Back Button -->
+                <a href="dashboard.html" class="text-white hover:text-gold transition-colors duration-300 p-2 rounded-full hover:bg-white hover:bg-opacity-10">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h2 class="text-white text-2xl md:text-3xl font-bold mb-2">Deposit Funds</h2>
+            <p class="text-gold text-sm md:text-base">Add money to your account</p>
+        </div>
+
+        <div class="max-w-md mx-auto">
+            <!-- Deposit Form -->
+            <div class="glass-effect rounded-2xl p-6 md:p-8 shadow-2xl mb-6">
+                <h3 class="text-white text-xl font-bold text-center mb-6">Deposit Request</h3>
+                
+                <form id="depositForm" class="space-y-4">
+                    <!-- Payment Type -->
+                    <div>
+                        <label for="agent_payment_type_id" class="block text-white text-sm font-medium mb-2">
+                            Payment Method <span class="text-red-400">*</span>
+                        </label>
+                        <select 
+                            id="agent_payment_type_id" 
+                            name="agent_payment_type_id" 
+                            required
+                            class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white focus:outline-none focus:border-gold input-focus transition-all duration-300"
+                        >
+                            <option value="" class="bg-gray-800">Select payment method</option>
+                        </select>
+                    </div>
+
+                    <!-- Amount -->
+                    <div>
+                        <label for="amount" class="block text-white text-sm font-medium mb-2">
+                            Amount (MMK) <span class="text-red-400">*</span>
+                        </label>
+                        <input 
+                            type="number" 
+                            id="amount" 
+                            name="amount" 
+                            required
+                            min="1000"
+                            class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-gold input-focus transition-all duration-300"
+                            placeholder="Minimum: 1,000 MMK"
+                        >
+                    </div>
+
+                    <!-- Reference Number -->
+                    <div>
+                        <label for="refrence_no" class="block text-white text-sm font-medium mb-2">
+                            Reference Number <span class="text-red-400">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="refrence_no" 
+                            name="refrence_no" 
+                            required
+                            maxlength="6"
+                            pattern="[0-9]{6}"
+                            class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-gold input-focus transition-all duration-300"
+                            placeholder="6-digit reference number"
+                        >
+                    </div>
+
+                    <!-- Receipt Image -->
+                    <div>
+                        <label for="image" class="block text-white text-sm font-medium mb-2">
+                            Receipt Image (Optional)
+                        </label>
+                        <input 
+                            type="file" 
+                            id="image" 
+                            name="image" 
+                            accept="image/*"
+                            class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white focus:outline-none focus:border-gold input-focus transition-all duration-300"
+                        >
+                        <p class="text-gray-300 text-xs mt-1">Upload your payment receipt for faster processing</p>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        id="depositBtn"
+                        class="w-full gold-gradient text-white font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gold focus:ring-opacity-50"
+                    >
+                        <span id="depositBtnText">Submit Deposit Request</span>
+                        <svg id="depositSpinner" class="animate-spin h-5 w-5 text-white ml-2 hidden" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Quick Amount Buttons -->
+            <div class="glass-effect rounded-xl p-6 shadow-2xl">
+                <h3 class="text-white font-bold text-lg mb-4">Quick Amount</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="setAmount(10000)" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300">
+                        10,000 MMK
+                    </button>
+                    <button onclick="setAmount(25000)" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300">
+                        25,000 MMK
+                    </button>
+                    <button onclick="setAmount(50000)" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300">
+                        50,000 MMK
+                    </button>
+                    <button onclick="setAmount(100000)" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300">
+                        100,000 MMK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth-service.js"></script>
+    <script src="js/api-service.js"></script>
+    <script>
+        // DOM Elements
+        const depositForm = document.getElementById('depositForm');
+        const depositBtn = document.getElementById('depositBtn');
+        const depositBtnText = document.getElementById('depositBtnText');
+        const depositSpinner = document.getElementById('depositSpinner');
+        const paymentTypeSelect = document.getElementById('agent_payment_type_id');
+        const amountInput = document.getElementById('amount');
+        const refrenceNoInput = document.getElementById('refrence_no');
+        const imageInput = document.getElementById('image');
+        const alertContainer = document.getElementById('alertContainer');
+
+        // Show Alert Function
+        function showAlert(message, type = 'error') {
+            const alert = document.createElement('div');
+            alert.className = `px-6 py-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 ${
+                type === 'success' 
+                    ? 'bg-green-500 text-white' 
+                    : type === 'warning'
+                    ? 'bg-yellow-500 text-yellow-900'
+                    : 'bg-red-500 text-white'
+            }`;
+            
+            alert.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        ${type === 'success' 
+                            ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>'
+                            : '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>'
+                        }
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                alert.style.transform = 'translateX(100%)';
+                alert.style.opacity = '0';
+                setTimeout(() => {
+                    if (alertContainer.contains(alert)) {
+                        alertContainer.removeChild(alert);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // Set Loading State
+        function setLoadingState(loading) {
+            if (loading) {
+                depositBtn.disabled = true;
+                depositBtnText.textContent = 'Submitting...';
+                depositSpinner.classList.remove('hidden');
+            } else {
+                depositBtn.disabled = false;
+                depositBtnText.textContent = 'Submit Deposit Request';
+                depositSpinner.classList.add('hidden');
+            }
+        }
+
+        // Load Payment Types
+        async function loadPaymentTypes() {
+            try {
+                const result = await apiService.getAgentFinancialPaymentTypes();
+                
+                if (result.success) {
+                    paymentTypeSelect.innerHTML = '<option value="" class="bg-gray-800">Select payment method</option>';
+                    
+                    result.data.forEach(paymentType => {
+                        const option = document.createElement('option');
+                        option.value = paymentType.id;
+                        option.textContent = paymentType.name || `Payment Type ${paymentType.id}`;
+                        option.className = 'bg-gray-800';
+                        paymentTypeSelect.appendChild(option);
+                    });
+                } else {
+                    showAlert('Failed to load payment methods', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading payment types:', error);
+                showAlert('Failed to load payment methods', 'error');
+            }
+        }
+
+        // Set Quick Amount
+        function setAmount(amount) {
+            amountInput.value = amount;
+        }
+
+        // Generate Random Reference Number
+        function generateReferenceNumber() {
+            const randomNum = Math.floor(100000 + Math.random() * 900000);
+            refrenceNoInput.value = randomNum.toString();
+        }
+
+        // Validate Form
+        function validateForm(formData) {
+            const errors = [];
+
+            if (!formData.get('agent_payment_type_id')) {
+                errors.push('Please select a payment method');
+            }
+
+            const amount = parseInt(formData.get('amount'));
+            if (!amount || amount < 1000) {
+                errors.push('Amount must be at least 1,000 MMK');
+            }
+
+            const refNo = formData.get('refrence_no');
+            if (!refNo || refNo.length !== 6 || !/^\d{6}$/.test(refNo)) {
+                errors.push('Reference number must be exactly 6 digits');
+            }
+
+            return errors;
+        }
+
+        // Form Submission
+        depositForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(depositForm);
+            
+            // Validate form
+            const validationErrors = validateForm(formData);
+            if (validationErrors.length > 0) {
+                validationErrors.forEach(error => showAlert(error, 'error'));
+                return;
+            }
+
+            const depositData = {
+                agent_payment_type_id: parseInt(formData.get('agent_payment_type_id')),
+                amount: parseInt(formData.get('amount')),
+                refrence_no: formData.get('refrence_no'),
+                image: imageInput.files[0] || null
+            };
+
+            setLoadingState(true);
+            
+            try {
+                const result = await apiService.submitFinancialDeposit(depositData);
+                
+                if (result.success) {
+                    showAlert(result.message || 'Deposit request submitted successfully!', 'success');
+                    // Clear form
+                    depositForm.reset();
+                    // Generate new reference number
+                    generateReferenceNumber();
+                } else {
+                    showAlert(result.message || 'Failed to submit deposit request', 'error');
+                }
+            } catch (error) {
+                console.error('Deposit submission error:', error);
+                showAlert('An error occurred. Please try again.', 'error');
+            }
+            
+            setLoadingState(false);
+        });
+
+        // Initialize page
+        window.addEventListener('load', async function() {
+            if (!authService.isAuthenticated()) {
+                showAlert('Please login to make deposits.', 'warning');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+
+            await loadPaymentTypes();
+            generateReferenceNumber();
+        });
+    </script>
+</body>
+</html>

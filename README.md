@@ -1,29 +1,41 @@
-# GoldenMM Slot Game - Authentication Integration
+# GoldenMM Slot Game - Complete API Integration
 
-This project integrates a comprehensive authentication system with your Unity Shan slot game. The system includes login, registration, profile management, and password change functionality.
+This project integrates a comprehensive authentication and gaming system with your Unity Shan slot game. The system includes authentication, financial management, game launching, and user management functionality.
 
 ## Features
 
 - **Mobile-first responsive design** [[memory:6998261]]
-- **Login page** with username/phone and password authentication
-- **Registration page** with agent referral code validation
-- **User profile management** with account information display
-- **Password change functionality** with current password verification
-- **User menu integration** in the main game interface
+- **Complete authentication system** with login, registration, and profile management
+- **Financial management** with deposit and withdrawal functionality
+- **Shan game integration** with game launching capabilities
+- **Transaction history** with detailed logs and summaries
+- **Support system** with contact information and help
+- **Promotions system** with offers and bonuses
+- **Bank management** with payment method information
 - **Session management** with automatic token handling
-- **Agent information display** showing referral details
+- **Real-time balance updates** and user information
 
 ## File Structure
 
 ```
-├── index.html              # Main game page with authentication integration
+├── index.html              # Main entry point (redirects to dashboard)
+├── dashboard.html          # Main dashboard with all features
 ├── login.html              # User login page
 ├── register.html           # User registration page
 ├── change-password.html    # Password change page
 ├── profile.html            # User profile management page
+├── unity-game.html         # Unity game launcher
+├── shan-game.html          # Shan game launcher
+├── deposit.html            # Deposit funds page
+├── withdraw.html           # Withdraw funds page
+├── transactions.html       # Transaction history page
+├── banks.html              # Available banks/payment methods
+├── contact.html            # Contact support page
+├── promotions.html         # Promotions and offers page
 ├── js/
 │   ├── config.js           # Configuration file for API settings
-│   └── auth-service.js     # Authentication service for API calls
+│   ├── auth-service.js     # Authentication service for API calls
+│   └── api-service.js      # General API service for all endpoints
 └── README.md               # This file
 ```
 
@@ -44,13 +56,30 @@ const CONFIG = {
 
 Your Laravel backend should have the following API endpoints:
 
-- `POST /api/v1/login` - User login
-- `POST /api/v1/register` - User registration
-- `POST /api/v1/logout` - User logout
-- `GET /api/v1/user` - Get current user data
-- `POST /api/v1/change-password` - Change password
-- `POST /api/v1/profile` - Update user profile
-- `GET /api/v1/agent` - Get agent information
+**Authentication Endpoints:**
+- `POST /api/login` - User login
+- `POST /api/register` - User registration
+- `POST /api/logout` - User logout
+- `GET /api/user` - Get current user data
+- `POST /api/change-password` - Change password
+- `POST /api/profile` - Update user profile
+- `GET /api/agent` - Get agent information
+
+**Financial Endpoints:**
+- `GET /api/banks` - Get available banks/payment methods
+- `GET /api/agentfinicialPaymentType` - Get agent payment types
+- `POST /api/depositfinicial` - Submit deposit request
+- `GET /api/depositlogfinicial` - Get deposit logs
+- `GET /api/paymentTypefinicial` - Get payment types
+- `POST /api/withdrawfinicial` - Submit withdrawal request
+- `GET /api/withdrawlogfinicial` - Get withdrawal logs
+
+**Game Endpoints:**
+- `POST /api/shankomee/launch-game` - Launch Shan game
+
+**Support Endpoints:**
+- `GET /api/contact` - Get contact information
+- `GET /api/promotion` - Get promotions
 
 ### 3. API Response Format
 
@@ -76,13 +105,15 @@ The backend should return responses in this format:
 }
 ```
 
-### 4. Authentication Flow
+### 4. Application Flow
 
 1. **First Visit**: Users are redirected to `login.html`
-2. **Login**: After successful login, users are redirected to `index.html`
-3. **Game Access**: The main game page checks authentication before loading
-4. **Session Management**: Tokens are stored in localStorage and automatically included in API requests
-5. **Logout**: Users can logout from the user menu in the game interface
+2. **Login**: After successful login, users are redirected to `dashboard.html`
+3. **Dashboard**: Main hub with all features and quick actions
+4. **Game Access**: Unity game can be launched from dashboard
+5. **Financial Management**: Deposit/withdraw funds with transaction history
+6. **Session Management**: Tokens are stored in localStorage and automatically included in API requests
+7. **Logout**: Users can logout from the user menu in any page
 
 ### 5. User Registration Process
 
@@ -106,22 +137,44 @@ The design is optimized for mobile devices with:
 
 ## Usage
 
-### Starting the Game
+### Starting the Application
 
 1. Open `index.html` in a web browser
 2. If not logged in, you'll be redirected to the login page
-3. After successful login, the Unity game will load
+3. After successful login, you'll be redirected to the dashboard
+
+### Dashboard Features
+
+- **Quick Actions**: Access all major features from the dashboard
+- **Balance Display**: View current account balance
+- **Recent Activity**: See latest transactions
+- **Navigation**: Easy access to all features
+
+### Financial Management
+
+- **Deposits**: Add funds to your account with receipt upload
+- **Withdrawals**: Cash out winnings with password verification
+- **Transaction History**: View detailed logs of all transactions
+- **Payment Methods**: View available banks and payment options
+
+### Game Access
+
+- **Unity Game**: Launch the main Unity slot game
+- **Shan Game**: Launch Shan gaming platform games
+- **Game Information**: View balance and account details
 
 ### User Management
 
-- **Profile**: Click the user menu (profile icon) in the top navigation
-- **Change Password**: Access from user menu or direct link
-- **Logout**: Available in the user menu
+- **Profile**: Update personal information
+- **Change Password**: Secure password management
+- **Agent Information**: View agent details and referral codes
+- **Logout**: Secure session termination
 
-### Registration
+### Support & Information
 
-- New users can register by clicking "Register here" on the login page
-- A valid agent referral code is required for registration
+- **Contact Support**: Get help from support team
+- **Promotions**: View available offers and bonuses
+- **Banks**: View payment method information
 
 ## Security Features
 

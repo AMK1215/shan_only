@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <title>Shan Game - GoldenMM Slot Game</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#FFD700',
+                        'dark-gold': '#B8860B',
+                        'game-bg': '#0F0F23',
+                        'card-bg': '#1A1A2E',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-transparent">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center space-x-3">
+                <img src="TemplateData/shan.jpg" alt="GoldenMM Logo" class="w-10 h-10 rounded-full border-2 border-gold">
+                <h1 class="text-white font-bold text-lg md:text-xl">GoldenMM</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Back Button -->
+                <a href="dashboard.html" class="text-white hover:text-gold transition-colors duration-300 p-2 rounded-full hover:bg-white hover:bg-opacity-10">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h2 class="text-white text-2xl md:text-3xl font-bold mb-2">Shan Game</h2>
+            <p class="text-gold text-sm md:text-base">Launch your favorite Shan games</p>
+        </div>
+
+        <!-- Game Launch Form -->
+        <div class="glass-effect rounded-2xl p-6 md:p-8 shadow-2xl max-w-md mx-auto">
+            <h3 class="text-white text-xl font-bold text-center mb-6">Launch Game</h3>
+            
+            <form id="gameLaunchForm" class="space-y-4">
+                <!-- Product Code -->
+                <div>
+                    <label for="product_code" class="block text-white text-sm font-medium mb-2">
+                        Product Code <span class="text-red-400">*</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="product_code" 
+                        name="product_code" 
+                        required
+                        class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-gold transition-all duration-300"
+                        placeholder="Enter product code"
+                    >
+                </div>
+
+                <!-- Game Type -->
+                <div>
+                    <label for="game_type" class="block text-white text-sm font-medium mb-2">
+                        Game Type <span class="text-red-400">*</span>
+                    </label>
+                    <select 
+                        id="game_type" 
+                        name="game_type" 
+                        required
+                        class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white focus:outline-none focus:border-gold transition-all duration-300"
+                    >
+                        <option value="" class="bg-gray-800">Select game type</option>
+                        <option value="slot" class="bg-gray-800">Slot</option>
+                        <option value="live" class="bg-gray-800">Live Casino</option>
+                        <option value="sport" class="bg-gray-800">Sports</option>
+                        <option value="lottery" class="bg-gray-800">Lottery</option>
+                    </select>
+                </div>
+
+                <!-- Nickname (Optional) -->
+                <div>
+                    <label for="nickname" class="block text-white text-sm font-medium mb-2">
+                        Nickname (Optional)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="nickname" 
+                        name="nickname"
+                        class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-gold transition-all duration-300"
+                        placeholder="Enter your nickname"
+                    >
+                </div>
+
+                <!-- Launch Button -->
+                <button 
+                    type="submit" 
+                    id="launchBtn"
+                    class="w-full gold-gradient text-white font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gold focus:ring-opacity-50"
+                >
+                    <span id="launchBtnText">Launch Game</span>
+                    <svg id="launchSpinner" class="animate-spin h-5 w-5 text-white ml-2 hidden" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- Game Information -->
+        <div class="glass-effect rounded-xl p-6 mt-8 max-w-2xl mx-auto">
+            <h3 class="text-white font-bold text-lg mb-4">Game Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Current Balance:</span>
+                    <span class="text-gold font-medium" id="currentBalance">Loading...</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Username:</span>
+                    <span class="text-white font-medium" id="userName">Loading...</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Game Status:</span>
+                    <span class="text-green-400 font-medium">Ready to Play</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-300">Provider:</span>
+                    <span class="text-white font-medium">Shan Gaming</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Game Launch Options -->
+        <div class="mt-8">
+            <h3 class="text-white font-bold text-lg mb-4 text-center">Quick Launch</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button class="glass-effect rounded-xl p-4 text-center game-card transition-all duration-300" onclick="quickLaunch(1, 'slot')">
+                    <div class="text-3xl mb-2">🎰</div>
+                    <h4 class="text-white font-medium text-sm">Slot Game</h4>
+                    <p class="text-gold text-xs">Product: 1</p>
+                </button>
+                
+                <button class="glass-effect rounded-xl p-4 text-center game-card transition-all duration-300" onclick="quickLaunch(2, 'live')">
+                    <div class="text-3xl mb-2">🎲</div>
+                    <h4 class="text-white font-medium text-sm">Live Casino</h4>
+                    <p class="text-gold text-xs">Product: 2</p>
+                </button>
+                
+                <button class="glass-effect rounded-xl p-4 text-center game-card transition-all duration-300" onclick="quickLaunch(3, 'sport')">
+                    <div class="text-3xl mb-2">⚽</div>
+                    <h4 class="text-white font-medium text-sm">Sports</h4>
+                    <p class="text-gold text-xs">Product: 3</p>
+                </button>
+                
+                <button class="glass-effect rounded-xl p-4 text-center game-card transition-all duration-300" onclick="quickLaunch(4, 'lottery')">
+                    <div class="text-3xl mb-2">🎫</div>
+                    <h4 class="text-white font-medium text-sm">Lottery</h4>
+                    <p class="text-gold text-xs">Product: 4</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth-service.js"></script>
+    <script src="js/api-service.js"></script>
+    <script>
+        // DOM Elements
+        const gameLaunchForm = document.getElementById('gameLaunchForm');
+        const launchBtn = document.getElementById('launchBtn');
+        const launchBtnText = document.getElementById('launchBtnText');
+        const launchSpinner = document.getElementById('launchSpinner');
+        const currentBalance = document.getElementById('currentBalance');
+        const userName = document.getElementById('userName');
+        const alertContainer = document.getElementById('alertContainer');
+
+        // Show Alert Function
+        function showAlert(message, type = 'error') {
+            const alert = document.createElement('div');
+            alert.className = `px-6 py-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 ${
+                type === 'success' 
+                    ? 'bg-green-500 text-white' 
+                    : type === 'warning'
+                    ? 'bg-yellow-500 text-yellow-900'
+                    : 'bg-red-500 text-white'
+            }`;
+            
+            alert.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        ${type === 'success' 
+                            ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>'
+                            : '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>'
+                        }
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                alert.style.transform = 'translateX(100%)';
+                alert.style.opacity = '0';
+                setTimeout(() => {
+                    if (alertContainer.contains(alert)) {
+                        alertContainer.removeChild(alert);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // Set Loading State
+        function setLoadingState(loading) {
+            if (loading) {
+                launchBtn.disabled = true;
+                launchBtnText.textContent = 'Launching...';
+                launchSpinner.classList.remove('hidden');
+            } else {
+                launchBtn.disabled = false;
+                launchBtnText.textContent = 'Launch Game';
+                launchSpinner.classList.add('hidden');
+            }
+        }
+
+        // Load User Data
+        function loadUserData() {
+            const user = authService.getCurrentUserData();
+            if (user) {
+                userName.textContent = user.user_name || 'User';
+                currentBalance.textContent = user.balanceFloat ? `${user.balanceFloat.toLocaleString()} MMK` : '0 MMK';
+            }
+        }
+
+        // Launch Game Function
+        async function launchGame(gameData) {
+            try {
+                const result = await apiService.launchShanGame(gameData);
+                
+                if (result.success && result.data.url) {
+                    showAlert('Game launched successfully! Redirecting...', 'success');
+                    
+                    // Open game in new window/tab
+                    setTimeout(() => {
+                        window.open(result.data.url, '_blank');
+                    }, 1500);
+                } else {
+                    showAlert(result.message || 'Failed to launch game', 'error');
+                }
+            } catch (error) {
+                console.error('Game launch error:', error);
+                showAlert('An error occurred while launching the game. Please try again.', 'error');
+            }
+        }
+
+        // Quick Launch Function
+        function quickLaunch(productCode, gameType) {
+            document.getElementById('product_code').value = productCode;
+            document.getElementById('game_type').value = gameType;
+            
+            // Auto-submit the form
+            const formData = new FormData(gameLaunchForm);
+            const gameData = {
+                product_code: parseInt(formData.get('product_code')),
+                game_type: formData.get('game_type')
+            };
+
+            if (formData.get('nickname')) {
+                gameData.nickname = formData.get('nickname');
+            }
+
+            setLoadingState(true);
+            launchGame(gameData).finally(() => setLoadingState(false));
+        }
+
+        // Form Submission
+        gameLaunchForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(gameLaunchForm);
+            const gameData = {
+                product_code: parseInt(formData.get('product_code')),
+                game_type: formData.get('game_type')
+            };
+
+            if (formData.get('nickname')) {
+                gameData.nickname = formData.get('nickname');
+            }
+
+            setLoadingState(true);
+            await launchGame(gameData);
+            setLoadingState(false);
+        });
+
+        // Initialize page
+        window.addEventListener('load', async function() {
+            if (!authService.isAuthenticated()) {
+                showAlert('Please login to launch games.', 'warning');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+
+            loadUserData();
+        });
+    </script>
+</body>
+</html>
