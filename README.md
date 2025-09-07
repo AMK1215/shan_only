@@ -24,8 +24,7 @@ This project integrates a comprehensive authentication and gaming system with yo
 ├── register.html           # User registration page
 ├── change-password.html    # Password change page
 ├── profile.html            # User profile management page
-├── unity-game.html         # Unity game launcher
-├── shan-game.html          # Shan game launcher
+├── shan-game.html          # Shan game launcher (API-based)
 ├── deposit.html            # Deposit funds page
 ├── withdraw.html           # Withdraw funds page
 ├── transactions.html       # Transaction history page
@@ -159,9 +158,9 @@ The design is optimized for mobile devices with:
 
 ### Game Access
 
-- **Unity Game**: Launch the main Unity slot game
-- **Shan Game**: Launch Shan gaming platform games
+- **Shan Game**: Launch Shan gaming platform games via API
 - **Game Information**: View balance and account details
+- **Game Launching**: API-based game integration for seamless experience
 
 ### User Management
 
